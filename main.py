@@ -20,11 +20,12 @@ if os.path.exists('ranking.csv'):
 
         choice = input()
         if choice == ('y' or 'yes'):
-          row['COUNT'] = int(row['COUNT']) +1
-          # with open('ranking.csv', 'a') as csv_file:
-          #   #csvファイルに+1
-          #   writer = csv.DictWriter(csv_file)
-          #   writer.writerow({'COUNT':new_count})
+          new_count = int(row['COUNT']) +1
+          with open('ranking.csv', 'a') as csv_file:
+            #csvファイルに+1
+            fieldnames = ['NAME', 'COUNT']
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writerow({'COUNT':new_count})
     break
 
       # if #全てのレストランにnoと答えた場合 :
