@@ -12,6 +12,7 @@ if os.path.exists('ranking.csv'):
   while True:
     with open('ranking.csv', 'r') as csv_file:
       reader = csv.DictReader(csv_file)
+      rows = []
       for row in reader:
         print('=====================================')
         print('私のお勧めのレストランは、{}です。'. format(row['NAME']))
@@ -19,18 +20,23 @@ if os.path.exists('ranking.csv'):
         print('=====================================')
 
         choice = input()
-        if choice == ('y' or 'yes'):
-          new_count = int(row['COUNT']) +1
-          with open('ranking.csv', 'a') as csv_file:
-            #csvファイルに+1
-            fieldnames = ['NAME', 'COUNT']
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-            writer.writerow({'COUNT':new_count})
+
+        if choice == 'y':
+          new_count = int(row['COUNT']) + 1
+          rows.append({'NAME':row['NAME'], 'COUNT':new_count})
+          break
+        elif choice == 'n':
+          rows.append(row)
+          continue
+    with open('ranking.csv', 'w') as csv_file:
+      fieldnames = ['NAME', 'COUNT']
+      writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+      writer.writeheader()
+      for r in rows:
+        writer.writerow(r)
+
+    #whileループ抜け出し
     break
-
-      # if #全てのレストランにnoと答えた場合 :
-
-
 
 # csv上のレストランを聞き終わった後
 print('=====================================')
